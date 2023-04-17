@@ -65,3 +65,9 @@ class Queen : public Piece {
 
 	bool canMove(int destX, int destY);
 };
+
+class King : public Piece {
+	King(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
+
+	bool canMove(int destX, int destY); //Castling involves multiple pieces and will be handled by the game, rather than the king itself
+};
