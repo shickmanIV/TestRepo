@@ -31,4 +31,8 @@ public:
 	};
 
 	bool canMove(int destX, int destY);
+
+	void setLeft(bool newTakeLeft);
+
+	void setRight(bool newTakeRight);
 };

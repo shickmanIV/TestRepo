@@ -60,3 +60,13 @@ bool Pawn::canMove(int destX, int destY)
 	}
 	return false;//This shouldn't ever be reached but just in case
 }
+
+void Pawn::setLeft(bool newTakeLeft)
+{
+	canTakeLeft = newTakeLeft;
+}
+
+void Pawn::setRight(bool newTakeRight)
+{
+	canTakeRight = newTakeRight;
+}
