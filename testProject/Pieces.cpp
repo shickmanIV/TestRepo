@@ -76,8 +76,29 @@ bool Rook::canMove(int destX, int destY)
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
 		return false;
 	}
-	if (destX == posX || destY == posY) {//Rook needs one dimension to stay constant, other can be whatever
+	if (destX == posX || destY == posY) {//Rook needs one dimension to stay constant, other can be whatevers
 		return true;
 	}
 	else return false;
+}
+
+bool Knight::canMove(int destX, int destY)
+{
+	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
+		return false;
+	}
+	if (destX = posX - 1 || destX = posX + 1) {
+		if (destY == posY + 2 || destY == posY - 2) {
+			return true;
+		}
+		else return false;
+	}
+	else if (destX == posX + 2 || destX == posX - 2) {
+		if (destY = posY - 1 || destY = posY + 1) {
+			return true;
+		}
+		else return false;
+	}
+	else return false;
+	
 }

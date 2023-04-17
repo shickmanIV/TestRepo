@@ -43,3 +43,10 @@ public:
 
 	bool canMove(int destX, int destY);
 };
+
+class Knight : public Piece {
+public:
+	Knight(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
+
+	bool canMove(int destX, int destY);
+};
