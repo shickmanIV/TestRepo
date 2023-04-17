@@ -36,3 +36,10 @@ public:
 
 	void setRight(bool newTakeRight);
 };
+
+class Rook : public Piece {
+public:
+	Rook(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
+
+	bool canMove(int destX, int destY);
+};
