@@ -113,3 +113,17 @@ bool Bishop::canMove(int destX, int destY)
 	}
 	else return false;
 }
+
+bool Queen::canMove(int destX, int destY)
+{
+	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
+		return false;
+	}
+	if (destX == posX || destY == posY) {//Moving like a rook
+		return true;
+	}
+	else if (abs(destX - posX) == abs(destY - posY)) {//Moving like a bishop
+		return true;
+	}
+	else return false;
+}
