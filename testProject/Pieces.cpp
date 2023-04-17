@@ -87,13 +87,13 @@ bool Knight::canMove(int destX, int destY)
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
 		return false;
 	}
-	if (destX = posX - 1 || destX = posX + 1) {
+	if (destX = posX - 1 || destX = posX + 1) {// Right/Left one, Up/Down two
 		if (destY == posY + 2 || destY == posY - 2) {
 			return true;
 		}
 		else return false;
 	}
-	else if (destX == posX + 2 || destX == posX - 2) {
+	else if (destX == posX + 2 || destX == posX - 2) {// Up/Down two, Right/Left one
 		if (destY = posY - 1 || destY = posY + 1) {
 			return true;
 		}
@@ -101,4 +101,15 @@ bool Knight::canMove(int destX, int destY)
 	}
 	else return false;
 	
+}
+
+bool Bishop::canMove(int destX, int destY)
+{
+	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
+		return false;
+	}
+	if (abs(destX - posX) == abs(destY - posY)) {//Make sure bishop is moving same amount right as left
+		return true;
+	}
+	else return false;
 }
