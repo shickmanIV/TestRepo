@@ -1,5 +1,22 @@
 #include "Chess.hpp"
 
+bool Chess::capture(Piece& attacker, Piece& defender)
+{
+	//Temp code for basic game where attack always works
+	bool success = true;
+
+	if (success) {
+		board[attacker.getX()][attacker.getY()] = nullptr;
+		attacker.setPos(defender.getX(), defender.getY());
+		board[defender.getX()][defender.getY()] = &attacker;
+	}
+	else {
+		board[attacker.getX()][attacker.getY()] = nullptr;
+	}
+
+	return success;
+}
+
 //Construct each piece (ugh)
 Chess::Chess() : whiteRookL(0, 0, true), whiteRookR(7, 0, true), blackRookL(0, 7, false), blackRookR(7, 7, false),
 whiteKnightL(1, 0, true), whiteKnightR(6, 0, true), blackKnightL(1, 7, false), blackKnightR(6, 7, false),
@@ -8,7 +25,7 @@ whiteQueen(3, 0, true), whiteKing(4, 0, true), blackQueen(3, 7, false), blackKin
 whiteP1(0, 1, true), whiteP2(1, 1, true), whiteP3(2, 1, true), whiteP4(3, 1, true),
 whiteP5(4, 1, true), whiteP6(5, 1, true), whiteP7(6, 1, true), whiteP8(7, 1, true),
 blackP1(0, 6, false), blackP2(1, 6, false), blackP3(2, 6, false), blackP4(3, 6, false),
-blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, false) {
+blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, false), board{ nullptr } {
 	//Constructor places each piece on board (I have no idea how to do this in a less boring way)
 	board[0][0] = &whiteRookL;
 	board[7][0] = &whiteRookR;
@@ -55,4 +72,42 @@ void Chess::printBoard()
 		}
 		cout << endl;
 	}
+}
+
+bool Chess::makeMove(int posX, int posY, int destX, int destY)
+{
+	Piece* piece = board[posX][posY];
+	int testX = piece->getX() + 1, testY = piece->getY() + 1;//Plus one so don't check self for collision
+	bool success = false, collided = false;
+
+	if (piece->canMove(destX, destY)) {//If movement is correct
+		if (piece->getCollisionMatters()) {
+			while (testX != destX || testY != destY) {
+				if (board[testX][testY] != nullptr) { collided = true; }//Make sure piece isn't already here
+				testX++;
+				testY++;
+			}
+
+		}
+		if (piece->getCollisionMatters() && collided) {//If collision matters and there is collision
+			success = false;
+		}
+		else {
+			success = true;//Collision either doesn't matter, or there was no collision (either way there was success)
+			if (board[destX][destY] != nullptr) {//If a piece is on the destination square
+				if (board[destX][destY]->getIsWhite() != piece->getIsWhite()) {//If landing on opposing piece, can capture
+					capture(*board[posX][posY], *board[destX][destY]);
+				}
+				else success = false;//else you're trying to capture your own piece
+			}
+			else {//Taking an empty spot
+				board[destX][destY] = piece;
+				board[posX][posY] = nullptr;
+				piece->setPos(destX, destY);
+			}
+			
+		}
+	}
+
+	return success;
 }

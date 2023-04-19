@@ -11,15 +11,23 @@ protected:
 	int posX;
 	int posY;
 	bool isWhite;//only two color options, so bool
+	bool collisionMatters;
 
 public:
 	Piece(int newX, int newY, bool newIsWhite) {
 		posX = newX;
 		posY = newY;
 		isWhite = newIsWhite;
+		collisionMatters = true;
 	}
 	//Precondition: Move must be valid, this is not checked here
 	void setPos(int newX, int newY);
+
+	//Getters
+	int getX();
+	int getY();
+	bool getIsWhite();
+	bool getCollisionMatters();
 
 	//Test whether a piece could go from its pos to dest on a theoretically empty board (wrapper will check if the move actually works)
 	virtual bool canMove(int destX, int destY) = 0;
@@ -59,7 +67,7 @@ public:
 
 class Knight : public Piece {
 public:
-	Knight(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
+	Knight(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) { collisionMatters = false; };
 
 	bool canMove(int destX, int destY);
 

@@ -1,13 +1,18 @@
-
+#include "Chess.hpp"
 #include <iostream>
 
 int main()
 {
-	std::cout << "This is a test. Do not panic." << std::endl;
+	Chess test;
+	bool success = false;
 
-	std::cout << "ABCDEFG" << std::endl;
-	
-	std::cout << "push test" << std::endl;
+	test.printBoard();
+
+	test.makeMove(1, 0, 2, 2);
+	test.makeMove(2, 2, 3, 4);
+	test.makeMove(3, 4, 4, 6);
+
+	test.printBoard();
 
 	return 0;
 }

@@ -6,6 +6,26 @@ void Piece::setPos(int newX, int newY)
 	posY = newY;
 }
 
+int Piece::getX()
+{
+	return posX;
+}
+
+int Piece::getY()
+{
+	return posY;
+}
+
+bool Piece::getIsWhite()
+{
+	return isWhite;
+}
+
+bool Piece::getCollisionMatters()
+{
+	return collisionMatters;
+}
+
 bool Pawn::canMove(int destX, int destY)
 {
 

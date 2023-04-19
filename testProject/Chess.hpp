@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Pieces.hpp"
-#include <memory>
 
 class Chess {
 private:
@@ -14,8 +13,15 @@ private:
 	Pawn whiteP1, whiteP2, whiteP3, whiteP4, whiteP5, whiteP6, whiteP7, whiteP8,
 		blackP1, blackP2, blackP3, blackP4, blackP5, blackP6, blackP7, blackP8;
 
+	//THIS SHOULD IMPLEMENT MINIGAMES Returns true if capture was successful, if true, defender is removed, if false, attacker is
+	bool capture(Piece& attacker, Piece& defender);
+
 public:
 	Chess();
 
+	//Basic console print of board
 	void printBoard();
+
+	//If move is valid, it is made and true is returned, if invalid, board is unchanged and false is returned
+	bool makeMove(int posX, int posY, int destX, int destY);
 };
