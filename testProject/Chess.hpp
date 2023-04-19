@@ -5,7 +5,7 @@
 
 class Chess {
 private:
-	std::unique_ptr<Piece> board[8][8];
+	Piece* board[8][8];
 	Rook whiteRookL, whiteRookR, blackRookL, blackRookR;
 	Knight whiteKnightL, whiteKnightR, blackKnightL, blackKnightR;
 	Bishop whiteBishopL, whiteBishopR, blackBishopL, blackBishopR;
