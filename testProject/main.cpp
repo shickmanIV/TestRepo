@@ -1,4 +1,4 @@
-#include "Chess.hpp"
+
 #include <iostream>
 
 int main()
@@ -8,9 +8,6 @@ int main()
 	std::cout << "ABCDEFG" << std::endl;
 	
 	std::cout << "push test" << std::endl;
-
-	Chess test;
-	test.printBoard();
 
 	return 0;
 }
