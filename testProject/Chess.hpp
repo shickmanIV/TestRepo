@@ -16,4 +16,6 @@ private:
 
 public:
 	Chess();
+
+	void printBoard();
 };

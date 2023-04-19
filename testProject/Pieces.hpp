@@ -1,6 +1,10 @@
 #pragma once
 
 #include <cstdlib>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 class Piece {
 protected:
@@ -49,6 +53,8 @@ public:
 	Rook(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY);
+
+	void print();
 };
 
 class Knight : public Piece {
@@ -56,6 +62,8 @@ public:
 	Knight(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY);
+
+	void print();
 };
 
 class Bishop : public Piece {
@@ -63,6 +71,8 @@ public:
 	Bishop(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY);
+
+	void print();
 };
 
 class Queen : public Piece {
@@ -70,6 +80,8 @@ public:
 	Queen(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY);
+
+	void print();
 };
 
 class King : public Piece {
@@ -77,4 +89,6 @@ public:
 	King(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY); //Castling involves multiple pieces and will be handled by the game, rather than the king itself
+
+	void print();
 };

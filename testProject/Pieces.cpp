@@ -71,6 +71,11 @@ void Pawn::setRight(bool newTakeRight)
 	canTakeRight = newTakeRight;
 }
 
+void Pawn::print()
+{
+	cout << "p";
+}
+
 bool Rook::canMove(int destX, int destY)
 {
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
@@ -80,6 +85,11 @@ bool Rook::canMove(int destX, int destY)
 		return true;
 	}
 	else return false;
+}
+
+void Rook::print()
+{
+	cout << "k";
 }
 
 bool Knight::canMove(int destX, int destY)
@@ -103,6 +113,11 @@ bool Knight::canMove(int destX, int destY)
 	
 }
 
+void Knight::print()
+{
+	cout << "n";
+}
+
 bool Bishop::canMove(int destX, int destY)
 {
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
@@ -112,6 +127,11 @@ bool Bishop::canMove(int destX, int destY)
 		return true;
 	}
 	else return false;
+}
+
+void Bishop::print()
+{
+	cout << "b";
 }
 
 bool Queen::canMove(int destX, int destY)
@@ -128,6 +148,11 @@ bool Queen::canMove(int destX, int destY)
 	else return false;
 }
 
+void Queen::print()
+{
+	cout << "q";
+}
+
 bool King::canMove(int destX, int destY)
 {
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
@@ -137,4 +162,9 @@ bool King::canMove(int destX, int destY)
 		return true;
 	}
 	else return false;
+}
+
+void King::print()
+{
+	cout << "k";
 }

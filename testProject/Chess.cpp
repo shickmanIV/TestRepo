@@ -43,3 +43,16 @@ blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, 
 	board[6][6].reset(&blackP7);
 	board[7][6].reset(&blackP8);
 }
+
+void Chess::printBoard()
+{
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (board[j][i] != nullptr) {
+				board[j][i]->print();
+			}
+			else cout << "-";
+		}
+		cout << endl;
+	}
+}
