@@ -19,6 +19,9 @@ public:
 
 	//Test whether a piece could go from its pos to dest on a theoretically empty board (wrapper will check if the move actually works)
 	virtual bool canMove(int destX, int destY) = 0;
+
+	//Print the type of piece
+	virtual void print() = 0;
 };
 
 class Pawn : public Piece {
@@ -37,6 +40,8 @@ public:
 	void setLeft(bool newTakeLeft);
 
 	void setRight(bool newTakeRight);
+
+	void print();
 };
 
 class Rook : public Piece {
@@ -61,12 +66,14 @@ public:
 };
 
 class Queen : public Piece {
+public:
 	Queen(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY);
 };
 
 class King : public Piece {
+public:
 	King(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
 
 	bool canMove(int destX, int destY); //Castling involves multiple pieces and will be handled by the game, rather than the king itself
