@@ -312,3 +312,30 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 
 	return success;
 }
+
+bool Chess::isWon(bool& whiteWins)
+{
+	bool blackLives = false, whiteLives = false;
+	const type_info& kingType = typeid(King);
+
+	for (int i = 0; i < 8; i++) {//Loop through board and check for both kings
+		for (int j = 0; j < 8; j++) {
+			if (board[j][i] != nullptr && typeid(*board[j][i]) == kingType) {
+				if (board[j][i]->getIsWhite()) {
+					whiteLives = true;
+				}
+				else blackLives = true;
+			}
+		}
+	}
+	if (!whiteLives) {
+		whiteWins = false;
+		return true;
+	}
+	else if(!blackLives) {
+		whiteWins = true;
+		return true;
+	}
+
+	return false;
+}

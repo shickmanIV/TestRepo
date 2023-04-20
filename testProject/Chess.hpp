@@ -27,4 +27,6 @@ public:
 
 	//If move is valid, it is made and true is returned, if invalid, board is unchanged and false is returned
 	bool makeMove(int posX, int posY, int destX, int destY);
+
+	bool isWon(bool& whiteWins);
 };
