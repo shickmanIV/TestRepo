@@ -116,7 +116,7 @@ bool Rook::canMove(int destX, int destY)
 
 void Rook::print()
 {
-	cout << "k";
+	cout << "r";
 }
 
 bool Knight::canMove(int destX, int destY)
@@ -185,7 +185,7 @@ bool King::canMove(int destX, int destY)
 	if (destX > 7 || destX < 0 || destY > 7 || destY < 0) {//Out of bounds check
 		return false;
 	}
-	if (abs(destX - posX) <= 1 || abs(destY - posY) <= 1) {//Make sure king is moving at most 1 horizontally and vertically
+	if (abs(destX - posX) <= 1 && abs(destY - posY) <= 1) {//Make sure king is moving at most 1 horizontally and vertically
 		return true;
 	}
 	else return false;

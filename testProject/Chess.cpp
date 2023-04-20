@@ -21,7 +21,7 @@ bool Chess::capture(Piece& attacker, Piece& defender)
 Chess::Chess() : whiteRookL(0, 0, true), whiteRookR(7, 0, true), blackRookL(0, 7, false), blackRookR(7, 7, false),
 whiteKnightL(1, 0, true), whiteKnightR(6, 0, true), blackKnightL(1, 7, false), blackKnightR(6, 7, false),
 whiteBishopL(2, 0, true), whiteBishopR(5, 0, true), blackBishopL(2, 7, false), blackBishopR(5, 7, false),
-whiteQueen(3, 0, true), whiteKing(4, 0, true), blackQueen(3, 7, false), blackKing(4, 7, false),
+whiteQueen(4, 0, true), whiteKing(3, 0, true), blackQueen(4, 7, false), blackKing(3, 7, false),
 whiteP1(0, 1, true), whiteP2(1, 1, true), whiteP3(2, 1, true), whiteP4(3, 1, true),
 whiteP5(4, 1, true), whiteP6(5, 1, true), whiteP7(6, 1, true), whiteP8(7, 1, true),
 blackP1(0, 6, false), blackP2(1, 6, false), blackP3(2, 6, false), blackP4(3, 6, false),
@@ -39,10 +39,10 @@ blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, 
 	board[5][0] = &whiteBishopR;
 	board[2][7] = &blackBishopL;
 	board[5][7] = &blackBishopR;
-	board[3][0] = &whiteQueen;
-	board[4][0] = &whiteKing;
-	board[3][7] = &blackQueen;
-	board[4][7] = &blackKing;
+	board[4][0] = &whiteQueen;
+	board[3][0] = &whiteKing;
+	board[4][7] = &blackQueen;
+	board[3][7] = &blackKing;
 	board[0][1] = &whiteP1;
 	board[1][1] = &whiteP2;
 	board[2][1] = &whiteP3;
@@ -67,6 +67,8 @@ blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, 
 	promotionStorage[5] = &promote6;
 	promotionStorage[6] = &promote7;
 	promotionStorage[7] = &promote8;
+	whiteCastle = true;
+	blackCastle = true;
 }
 
 void Chess::printBoard()
@@ -85,6 +87,8 @@ void Chess::printBoard()
 bool Chess::makeMove(int posX, int posY, int destX, int destY)
 {
 	const type_info& pawnType = typeid(Pawn);
+	const type_info& kingType = typeid(King);
+	const type_info& rookType = typeid(Rook);
 	Piece* piece = board[posX][posY], * pawnTest = nullptr;
 	int testX = piece->getX(), testY = piece->getY();//Plus one so don't check self for collision
 	bool success = false, collided = false;
@@ -186,7 +190,61 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 			
 		}
 	}
-	if (success) {//Update pawn capture eligibility after move has been made
+	else if(typeid(*piece) == kingType){//We'll check for castling here since it would be marked invalid by the king's canMove()
+		if (piece->getIsWhite() && whiteCastle) {
+			if (destX == 1 && destY == 0) {//White castle short
+				if (board[1][0] == nullptr && board[2][0] == nullptr && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
+					success = true;
+					whiteCastle = false;
+					board[1][0] = board[3][0];
+					board[3][0] = nullptr;
+					board[2][0] = board[0][0];
+					board[0][0] = nullptr;
+					board[1][0]->setPos(1, 0);
+					board[2][0]->setPos(2, 0);
+				}
+			}
+			else if (destX == 5 && destY == 0) {//White castle long
+				if (board[4][0] == nullptr && board[5][0] == nullptr && board[6][0] == nullptr && board[7][0]->getIsWhite()) {
+					success = true;
+					whiteCastle = false;
+					board[5][0] = board[3][0];
+					board[3][0] = nullptr;
+					board[4][0] = board[0][0];
+					board[7][0] = nullptr;
+					board[5][0]->setPos(5, 0);
+					board[4][0]->setPos(4, 0);
+				}
+			}
+		}
+		else if (!piece->getIsWhite() && !whiteCastle) {
+			if (destX == 1 && destY == 7) {//Black castle short
+				if (board[1][7] == nullptr && board[2][7] == nullptr && board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
+					success = true;
+					blackCastle = false;
+					board[1][7] = board[3][7];
+					board[3][7] = nullptr;
+					board[2][7] = board[0][7];
+					board[0][7] = nullptr;
+					board[1][7]->setPos(1, 7);
+					board[2][7]->setPos(2, 7);
+				}
+			}
+			else if (destX == 5 && destY == 7) {//Black castle long
+				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && board[7][7]->getIsWhite()) {
+					success = true;
+					blackCastle = false;
+					board[5][7] = board[3][7];
+					board[3][7] = nullptr;
+					board[4][7] = board[0][7];
+					board[7][7] = nullptr;
+					board[5][7]->setPos(5, 7);
+					board[4][7]->setPos(4, 7);
+				}
+			}
+		}
+	}
+	if (success) {//Post Move updates
 		if (typeid(*piece) == pawnType) {
 			if (destY != 0 && destY != 7) {//Pawn not promoting
 				if (piece->getIsWhite()) {//If a pawn moved, check if it opened up any attacks for itself
@@ -218,6 +276,12 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 					}
 				}
 			}
+		}
+		else if (typeid(*piece) == kingType || typeid(*piece) == rookType) {//Disable castling if rook or king moved
+			if (piece->getIsWhite()) {
+				whiteCastle = false;
+			}
+			else blackCastle = false;
 		}
 
 		if (piece->getIsWhite()) {//For any piece moves, check if piece has moved into a position where a pawn can take it
