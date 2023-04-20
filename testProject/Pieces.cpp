@@ -35,12 +35,14 @@ bool Pawn::canMove(int destX, int destY)
 	if (isWhite) {//For white
 		if (destX == posX - 1 && destY == posY + 1) {//Check taking left
 			if (canTakeLeft) {
+				canTakeLeft = false;//Reset before letting them move so they don't do it again
 				return true;
 			}
 			else return false;
 		}
 		if (destX == posX + 1 && destY == posY + 1) {//check taking right
 			if (canTakeRight) {
+				canTakeRight = false;
 				return true;
 			}
 			else return false;

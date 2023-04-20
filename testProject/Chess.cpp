@@ -125,13 +125,27 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 				}
 				else success = false;//else you're trying to capture your own piece
 			}
-			else {//Taking an empty spot
+			else if (typeid(*piece) == pawnType && posX != destX) {//Execute En Passant
+				//Move attacking pawn
 				board[destX][destY] = piece;
 				board[posX][posY] = nullptr;
 				piece->setPos(destX, destY);
-				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//En Passant
+				//Remove passanted pawn
+				if (piece->getIsWhite()) {
+					board[destX][destY - 1] = nullptr;
+				}
+				else {
+					board[destX][destY + 1] = nullptr;
+				}
+			}else
+			{//Taking an empty spot
+				board[destX][destY] = piece;
+				board[posX][posY] = nullptr;
+				piece->setPos(destX, destY);
+				
+				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//Set En Passant eligibility
 					if (piece->getIsWhite()) {
-						passantTest = board[destX - 1][destY - 1];
+						passantTest = board[destX - 1][destY];
 						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
 							dynamic_cast<Pawn*> (passantTest)->setRight(true);
 						}
@@ -143,11 +157,11 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 					else {
 						destX = destX;
 						destY = destY;
-						passantTest = board[destX - 1][destY + 1];
+						passantTest = board[destX - 1][destY];
 						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
 							dynamic_cast<Pawn*> (passantTest)->setRight(true);
 						}
-						passantTest = board[destX + 1][destY + 1];
+						passantTest = board[destX + 1][destY];
 						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
 							dynamic_cast<Pawn*> (passantTest)->setLeft(true);
 						}
