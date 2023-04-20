@@ -33,29 +33,6 @@ bool Pawn::canMove(int destX, int destY)
 		return false;
 	}
 	if (isWhite) {//For white
-		if (destX == posX - 1 && destY == posY - 1) {//Check taking left
-			if (canTakeLeft) {
-				return true;
-			}
-			else return false;
-		}
-		if (destX == posX + 1 && destY == posY - 1) {//check taking right
-			if (canTakeRight) {
-				return true;
-			}
-			else return false;
-		}
-		if (destX == posX) {//Not taking
-			if (destY == 1 && posY == 3) {//Moving two as first move
-				return true;
-			}
-			else if (destY == posY + 1) {//Moving one
-				return true;
-			}
-			else return false;
-		}
-	}
-	else {//For black
 		if (destX == posX - 1 && destY == posY + 1) {//Check taking left
 			if (canTakeLeft) {
 				return true;
@@ -69,7 +46,30 @@ bool Pawn::canMove(int destX, int destY)
 			else return false;
 		}
 		if (destX == posX) {//Not taking
-			if (destY == 6 && posY == 4) {//Moving two as first move
+			if (posY == 1 && destY == 3) {//Moving two as first move
+				return true;
+			}
+			else if (destY == posY + 1) {//Moving one
+				return true;
+			}
+			else return false;
+		}
+	}
+	else {//For black
+		if (destX == posX - 1 && destY == posY - 1) {//Check taking left
+			if (canTakeLeft) {
+				return true;
+			}
+			else return false;
+		}
+		if (destX == posX + 1 && destY == posY - 1) {//check taking right
+			if (canTakeRight) {
+				return true;
+			}
+			else return false;
+		}
+		if (destX == posX) {//Not taking
+			if (posY == 6 && destY == 4) {//Moving two as first move
 				return true;
 			}
 			else if (destY == posY - 1) {//Moving one

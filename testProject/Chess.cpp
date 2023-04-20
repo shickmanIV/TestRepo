@@ -76,16 +76,41 @@ void Chess::printBoard()
 
 bool Chess::makeMove(int posX, int posY, int destX, int destY)
 {
-	Piece* piece = board[posX][posY];
-	int testX = piece->getX() + 1, testY = piece->getY() + 1;//Plus one so don't check self for collision
+	const type_info& pawnType = typeid(Pawn);
+	Piece* piece = board[posX][posY], * passantTest = nullptr;
+	int testX = piece->getX(), testY = piece->getY();//Plus one so don't check self for collision
 	bool success = false, collided = false;
+
+	//Set up initial test position for collision testing
+	if (testX != destX) {
+		if (testX > destX) {
+			testX--;
+		}
+		else testX++;
+	}
+	if (testY != destY) {
+		if (testY > destY) {
+			testY--;
+		}
+		else testY++;
+	}
 
 	if (piece->canMove(destX, destY)) {//If movement is correct
 		if (piece->getCollisionMatters()) {
 			while (testX != destX || testY != destY) {
 				if (board[testX][testY] != nullptr) { collided = true; }//Make sure piece isn't already here
-				testX++;
-				testY++;
+				if (testX != destX) {
+					if (testX > destX) {
+						testX--;
+					}
+					else testX++;
+				}
+				if (testY != destY) {
+					if (testY > destY) {
+						testY--;
+					}
+					else testY++;
+				}
 			}
 
 		}
@@ -104,6 +129,31 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 				board[destX][destY] = piece;
 				board[posX][posY] = nullptr;
 				piece->setPos(destX, destY);
+				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//En Passant
+					if (piece->getIsWhite()) {
+						passantTest = board[destX - 1][destY - 1];
+						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
+							dynamic_cast<Pawn*> (passantTest)->setRight(true);
+						}
+						passantTest = board[destX + 1][destY - 1];
+						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
+							dynamic_cast<Pawn*> (passantTest)->setLeft(true);
+						}
+					}
+					else {
+						destX = destX;
+						destY = destY;
+						passantTest = board[destX - 1][destY + 1];
+						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
+							dynamic_cast<Pawn*> (passantTest)->setRight(true);
+						}
+						passantTest = board[destX + 1][destY + 1];
+						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
+							dynamic_cast<Pawn*> (passantTest)->setLeft(true);
+						}
+					}
+					
+				}
 			}
 			
 		}
