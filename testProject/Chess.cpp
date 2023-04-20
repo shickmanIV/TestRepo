@@ -73,7 +73,9 @@ blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, 
 
 void Chess::printBoard()
 {
+	cout << "  01234567" << endl;
 	for (int i = 0; i < 8; i++) {
+		cout << i << " ";
 		for (int j = 0; j < 8; j++) {
 			if (board[j][i] != nullptr) {
 				board[j][i]->print();
@@ -165,23 +167,31 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 				
 				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//Set En Passant eligibility
 					if (piece->getIsWhite()) {
-						pawnTest = board[destX - 1][destY];
-						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
-							dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+						if (destX > 0) {//Don't check off board
+							pawnTest = board[destX - 1][destY];
+							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+								dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+							}
 						}
-						pawnTest = board[destX + 1][destY - 1];
-						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
-							dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+						if (destX < 7) {
+							pawnTest = board[destX + 1][destY - 1];
+							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+								dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+							}
 						}
 					}
 					else {
-						pawnTest = board[destX - 1][destY];
-						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
-							dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+						if (destX > 0) {
+							pawnTest = board[destX - 1][destY];
+							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+								dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+							}
 						}
-						pawnTest = board[destX + 1][destY];
-						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
-							dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+						if (destX < 7) {
+							pawnTest = board[destX + 1][destY];
+							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+								dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+							}
 						}
 					}
 					
@@ -248,19 +258,27 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 		if (typeid(*piece) == pawnType) {
 			if (destY != 0 && destY != 7) {//Pawn not promoting
 				if (piece->getIsWhite()) {//If a pawn moved, check if it opened up any attacks for itself
-					if (board[destX - 1][destY + 1] != nullptr && !board[destX - 1][destY + 1]->getIsWhite()) {
-						dynamic_cast<Pawn*> (piece)->setLeft(true);
+					if (destX > 0) {//Don't check off board
+						if (board[destX - 1][destY + 1] != nullptr && !board[destX - 1][destY + 1]->getIsWhite()) {
+							dynamic_cast<Pawn*> (piece)->setLeft(true);
+						}
 					}
-					if (board[destX + 1][destY + 1] != nullptr && !board[destX + 1][destY + 1]->getIsWhite()) {
-						dynamic_cast<Pawn*> (piece)->setRight(true);
+					if (destX < 7) {
+						if (board[destX + 1][destY + 1] != nullptr && !board[destX + 1][destY + 1]->getIsWhite()) {
+							dynamic_cast<Pawn*> (piece)->setRight(true);
+						}
 					}
 				}
 				else {
-					if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
-						dynamic_cast<Pawn*> (piece)->setLeft(true);
+					if (destX > 0) {
+						if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
+							dynamic_cast<Pawn*> (piece)->setLeft(true);
+						}
 					}
-					if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
-						dynamic_cast<Pawn*> (piece)->setRight(true);
+					if (destX < 7) {
+						if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
+							dynamic_cast<Pawn*> (piece)->setRight(true);
+						}
 					}
 				}
 			}
@@ -286,25 +304,33 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 
 		if (piece->getIsWhite()) {//For any piece moves, check if piece has moved into a position where a pawn can take it
 			if (destY != 7 && destY != 6) {//Probably don't need to worry about being captured by off-board pieces, and why would a pawn be behind its starting rank
-				pawnTest = board[destX - 1][destY + 1];
-				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
-					dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+				if (destX > 0) {//Don't check off board
+					pawnTest = board[destX - 1][destY + 1];
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+						dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+					}
 				}
-				pawnTest = board[destX + 1][destY + 1];
-				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
-					dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+				if (destX < 7) {
+					pawnTest = board[destX + 1][destY + 1];
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+						dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+					}
 				}
 			}
 		}
 		else {
 			if (destY != 0 && destY != 1) {
-				pawnTest = board[destX - 1][destY - 1];
-				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
-					dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+				if (destX > 0) {
+					pawnTest = board[destX - 1][destY - 1];
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+						dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+					}
 				}
-				pawnTest = board[destX + 1][destY - 1];
-				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
-					dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+				if (destX < 7) {
+					pawnTest = board[destX + 1][destY - 1];
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+						dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+					}
 				}
 			}
 		}
@@ -338,4 +364,59 @@ bool Chess::isWon(bool& whiteWins)
 	}
 
 	return false;
+}
+
+void Chess::consoleGetMove(int& posX, int& posY, int& destX, int& destY, bool isWhite)
+{
+	do {
+		cout << "Insert coordinates of piece to move (separate x and y coords by space): ";
+		std::cin >> posX >> posY;
+		if (board[posX][posY] != nullptr && board[posX][posY]->getIsWhite() == isWhite) {
+			cout << "Insert coordinates to move to: ";
+			std::cin >> destX >> destY;
+		}
+		else cout << "Have to move your own piece" << endl;
+	} while (board[posX][posY] == nullptr || board[posX][posY]->getIsWhite() != isWhite);
+	
+}
+
+void Chess::consoleGame()
+{
+	bool whiteWins = false, whiteTurn = true;
+	int posX = 0, posY = 0, destX = 0, destY = 0, count = 0;
+
+	while (!isWon(whiteWins)) {
+		if (whiteTurn) {
+			printBoard();
+			cout << "White's Move" << endl;
+			count = 0;
+			do {
+				if (count > 0) {
+					cout << "Invalid move, try again" << endl;
+				}
+				consoleGetMove(posX, posY, destX, destY, true);
+			} while (!makeMove(posX, posY, destX, destY));
+			system("cls");
+			whiteTurn = false;
+		}
+		else {
+			printBoard();
+			cout << "Black's Move" << endl;
+			count = 0;
+			do {
+				if (count > 0) {
+					cout << "Invalid move, try again" << endl;
+				}
+				consoleGetMove(posX, posY, destX, destY, false);
+			} while (!makeMove(posX, posY, destX, destY));
+			system("cls");
+			whiteTurn = true;
+		}
+		
+	}
+	cout << "Game complete! | ";
+	if (whiteWins) {
+		cout << "White Wins!" << endl;
+	}
+	else cout << "Black Wins!" << endl;
 }

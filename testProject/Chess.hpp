@@ -29,4 +29,8 @@ public:
 	bool makeMove(int posX, int posY, int destX, int destY);
 
 	bool isWon(bool& whiteWins);
+
+	void consoleGetMove(int& posX, int& posY, int& destX, int& destY, bool isWhite);
+
+	void consoleGame();
 };
