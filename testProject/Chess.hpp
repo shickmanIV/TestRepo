@@ -12,6 +12,8 @@ private:
 	King whiteKing, blackKing;
 	Pawn whiteP1, whiteP2, whiteP3, whiteP4, whiteP5, whiteP6, whiteP7, whiteP8,
 		blackP1, blackP2, blackP3, blackP4, blackP5, blackP6, blackP7, blackP8;
+	Queen promote1, promote2, promote3, promote4, promote5, promote6, promote7, promote8; //If more than 8 promotions happen that sucks, also no bishops and knights because lazy
+	Piece* promotionStorage[8];
 
 	//THIS SHOULD IMPLEMENT MINIGAMES Returns true if capture was successful, if true, defender is removed, if false, attacker is
 	bool capture(Piece& attacker, Piece& defender);

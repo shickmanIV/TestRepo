@@ -59,6 +59,14 @@ blackP5(4, 6, false), blackP6(5, 6, false), blackP7(6, 6, false), blackP8(7, 6, 
 	board[5][6] = &blackP6;
 	board[6][6] = &blackP7;
 	board[7][6] = &blackP8;
+	promotionStorage[0] = &promote1;
+	promotionStorage[1] = &promote2;
+	promotionStorage[2] = &promote3;
+	promotionStorage[3] = &promote4;
+	promotionStorage[4] = &promote5;
+	promotionStorage[5] = &promote6;
+	promotionStorage[6] = &promote7;
+	promotionStorage[7] = &promote8;
 }
 
 void Chess::printBoard()
@@ -179,21 +187,35 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 		}
 	}
 	if (success) {//Update pawn capture eligibility after move has been made
-		if (typeid(*piece) == pawnType) {//If a pawn moved, check if it opened up any attacks for itself
-			if (piece->getIsWhite()) {
-				if (board[destX - 1][destY + 1] != nullptr && !board[destX - 1][destY + 1]->getIsWhite()) {
-					dynamic_cast<Pawn*> (piece)->setLeft(true);
+		if (typeid(*piece) == pawnType) {
+			if (destY != 0 && destY != 7) {//Pawn not promoting
+				if (piece->getIsWhite()) {//If a pawn moved, check if it opened up any attacks for itself
+					if (board[destX - 1][destY + 1] != nullptr && !board[destX - 1][destY + 1]->getIsWhite()) {
+						dynamic_cast<Pawn*> (piece)->setLeft(true);
+					}
+					if (board[destX + 1][destY + 1] != nullptr && !board[destX + 1][destY + 1]->getIsWhite()) {
+						dynamic_cast<Pawn*> (piece)->setRight(true);
+					}
 				}
-				if (board[destX + 1][destY + 1] != nullptr && !board[destX + 1][destY + 1]->getIsWhite()) {
-					dynamic_cast<Pawn*> (piece)->setRight(true);
+				else {
+					if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
+						dynamic_cast<Pawn*> (piece)->setLeft(true);
+					}
+					if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
+						dynamic_cast<Pawn*> (piece)->setRight(true);
+					}
 				}
 			}
-			else {
-				if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
-					dynamic_cast<Pawn*> (piece)->setLeft(true);
-				}
-				if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
-					dynamic_cast<Pawn*> (piece)->setRight(true);
+			else {//Pawn promoting
+				for (int i = 0; i < 8; i++) {
+					if (promotionStorage[i]->getX() == -1) {//If this promotion piece is unused
+						board[destX][destY] = promotionStorage[i];
+						promotionStorage[i]->setPos(destX, destY);
+						if (piece->getIsWhite()) {//Don't need else since is false by default
+							promotionStorage[i]->setWhite(true);
+						}
+						i = 2000;//End loop
+					}
 				}
 			}
 		}

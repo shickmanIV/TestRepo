@@ -6,6 +6,11 @@ void Piece::setPos(int newX, int newY)
 	posY = newY;
 }
 
+void Piece::setWhite(bool newIsWhite)
+{
+	isWhite = newIsWhite;
+}
+
 int Piece::getX()
 {
 	return posX;

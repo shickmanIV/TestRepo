@@ -22,6 +22,7 @@ public:
 	}
 	//Precondition: Move must be valid, this is not checked here
 	void setPos(int newX, int newY);
+	void setWhite(bool newIsWhite);
 
 	//Getters
 	int getX();
@@ -85,7 +86,7 @@ public:
 
 class Queen : public Piece {
 public:
-	Queen(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {};
+	Queen(int newX = -1, int newY = -1, bool newIsWhite = false) : Piece(newX, newY, newIsWhite) {};//Default constructor for unassigned promotion queens
 
 	bool canMove(int destX, int destY);
 
