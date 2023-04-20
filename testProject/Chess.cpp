@@ -77,7 +77,7 @@ void Chess::printBoard()
 bool Chess::makeMove(int posX, int posY, int destX, int destY)
 {
 	const type_info& pawnType = typeid(Pawn);
-	Piece* piece = board[posX][posY], * passantTest = nullptr;
+	Piece* piece = board[posX][posY], * pawnTest = nullptr;
 	int testX = piece->getX(), testY = piece->getY();//Plus one so don't check self for collision
 	bool success = false, collided = false;
 
@@ -125,17 +125,25 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 				}
 				else success = false;//else you're trying to capture your own piece
 			}
-			else if (typeid(*piece) == pawnType && posX != destX) {//Execute En Passant
-				//Move attacking pawn
-				board[destX][destY] = piece;
-				board[posX][posY] = nullptr;
-				piece->setPos(destX, destY);
-				//Remove passanted pawn
-				if (piece->getIsWhite()) {
+			else if (typeid(*piece) == pawnType && posX != destX) {//Pawn is moving to an empty square in capture form
+				if (piece->getIsWhite() && board[destX][destY - 1] != nullptr && typeid(*(board[destX][destY - 1])) == pawnType) {//If is white pawn en passanting
+					//Move attacking pawn
+					board[destX][destY] = piece;
+					board[posX][posY] = nullptr;
+					piece->setPos(destX, destY);
+					//Remove passanted pawn
 					board[destX][destY - 1] = nullptr;
 				}
-				else {
+				else if (!piece->getIsWhite() && board[destX][destY + 1] != nullptr && typeid(*(board[destX][destY + 1])) == pawnType) {//Black pawn is en passanting
+					//Move attacking pawn
+					board[destX][destY] = piece;
+					board[posX][posY] = nullptr;
+					piece->setPos(destX, destY);
+					//Remove passanted pawn
 					board[destX][destY + 1] = nullptr;
+				}
+				else {
+					success = false;//Pawn was trying to capture a piece that moved already, shouldn't need to reset taking privelidge, attempt to capture should have done that
 				}
 			}else
 			{//Taking an empty spot
@@ -145,31 +153,74 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 				
 				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//Set En Passant eligibility
 					if (piece->getIsWhite()) {
-						passantTest = board[destX - 1][destY];
-						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
-							dynamic_cast<Pawn*> (passantTest)->setRight(true);
+						pawnTest = board[destX - 1][destY];
+						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+							dynamic_cast<Pawn*> (pawnTest)->setRight(true);
 						}
-						passantTest = board[destX + 1][destY - 1];
-						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
-							dynamic_cast<Pawn*> (passantTest)->setLeft(true);
+						pawnTest = board[destX + 1][destY - 1];
+						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+							dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
 						}
 					}
 					else {
-						destX = destX;
-						destY = destY;
-						passantTest = board[destX - 1][destY];
-						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
-							dynamic_cast<Pawn*> (passantTest)->setRight(true);
+						pawnTest = board[destX - 1][destY];
+						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+							dynamic_cast<Pawn*> (pawnTest)->setRight(true);
 						}
-						passantTest = board[destX + 1][destY];
-						if (passantTest != nullptr && typeid(*passantTest) == pawnType) {
-							dynamic_cast<Pawn*> (passantTest)->setLeft(true);
+						pawnTest = board[destX + 1][destY];
+						if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
+							dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
 						}
 					}
 					
 				}
 			}
 			
+		}
+	}
+	if (success) {//Update pawn capture eligibility after move has been made
+		if (typeid(*piece) == pawnType) {//If a pawn moved, check if it opened up any attacks for itself
+			if (piece->getIsWhite()) {
+				if (board[destX - 1][destY + 1] != nullptr && !board[destX - 1][destY + 1]->getIsWhite()) {
+					dynamic_cast<Pawn*> (piece)->setLeft(true);
+				}
+				if (board[destX + 1][destY + 1] != nullptr && !board[destX + 1][destY + 1]->getIsWhite()) {
+					dynamic_cast<Pawn*> (piece)->setRight(true);
+				}
+			}
+			else {
+				if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
+					dynamic_cast<Pawn*> (piece)->setLeft(true);
+				}
+				if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
+					dynamic_cast<Pawn*> (piece)->setRight(true);
+				}
+			}
+		}
+
+		if (piece->getIsWhite()) {//For any piece moves, check if piece has moved into a position where a pawn can take it
+			if (destY != 7 && destY != 6) {//Probably don't need to worry about being captured by off-board pieces, and why would a pawn be behind its starting rank
+				pawnTest = board[destX - 1][destY + 1];
+				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+				}
+				pawnTest = board[destX + 1][destY + 1];
+				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+				}
+			}
+		}
+		else {
+			if (destY != 0 && destY != 1) {
+				pawnTest = board[destX - 1][destY - 1];
+				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+				}
+				pawnTest = board[destX + 1][destY - 1];
+				if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+				}
+			}
 		}
 	}
 

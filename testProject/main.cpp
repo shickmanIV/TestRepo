@@ -15,6 +15,7 @@ int main()
 	test.printBoard();
 
 	test.makeMove(1, 4, 2, 5);
+	test.makeMove(3, 6, 2, 5);
 
 	test.printBoard();
 
