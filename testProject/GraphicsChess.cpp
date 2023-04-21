@@ -139,13 +139,23 @@ void GraphicsChess::printBoard()
 
 void GraphicsChess::game()
 {
+	sf::Vector2i firstClick, secondClick;
+	bool isFirstClick = false, hasClicked = true;
 	sf::Font font;
 	font.loadFromFile("arial.ttf");
 	sf::Text text;
+	sf::Text text2;
 	text.setFont(font);
 	text.setCharacterSize(32);
 	text.setPosition(sf::Vector2f(0.f, 530.f));
 	text.setFillColor(sf::Color::White);
+	text2.setFont(font);
+	text2.setCharacterSize(32);
+	text2.setPosition(sf::Vector2f(64.f, 530.f));
+	text2.setFillColor(sf::Color::White);
+
+	bool whiteWins = false, whiteTurn = true, passanted = false;
+	int posX = 0, posY = 0, destX = 0, destY = 0;
 
 	while (screen.isOpen())
 	{
@@ -154,26 +164,56 @@ void GraphicsChess::game()
 		{
 			if (event.type == sf::Event::Closed)
 				screen.close();
+
+			if (event.type == sf::Event::MouseButtonReleased) {
+				if (isFirstClick) {
+					firstClick = sf::Mouse::getPosition();
+					posX = firstClick.x / 64;
+					posY = firstClick.y / 64;
+
+					isFirstClick = false;
+					hasClicked = true;
+				}
+				else {
+					secondClick = sf::Mouse::getPosition();
+					destX = secondClick.x / 64;
+					destY = secondClick.y / 64;
+
+					isFirstClick = true;
+					hasClicked = true;
+				}
+			}
 		}
-
 		screen.clear();
-		bool whiteWins = false, whiteTurn = true, passanted = false;
-		int posX = 0, posY = 0, destX = 0, destY = 0, count = 0;
 
-		while (!isWon(whiteWins)) {
+		if (isWon(whiteWins)) {//Check for game over
+			screen.clear();
+			text.setPosition(sf::Vector2f(0.f, 0.f));
+			text.setString("Game Over");
+			screen.draw(text);
+			if (whiteWins) {
+				text2.setString("White Wins!");
+			}
+			else text2.setString("Black Wins!");
+			screen.draw(text2);
+		}
+		else {//If game isn't over
+			printBoard();
 			if (whiteTurn) {
 				printBoard();
 				text.setString("White to Move");
 				screen.draw(text);
 				screen.display();
-				count = 0;
-				do {
-					if (count > 0) {
-						cout << "Invalid move, try again" << endl;
-					}
-					getMove(posX, posY, destX, destY, true);
-				} while (!makeMove(posX, posY, destX, destY, passanted));
-				system("cls");
+				if (makeMove(posX, posY, destX, destY, passanted)) {
+					showMove(posX, posY, destX, destY, passanted);
+					screen.display();
+				}
+				else {
+					text.setString("Invalid Move, white try again");
+					screen.draw(text);
+					screen.display();
+				}
+				
 				whiteTurn = false;
 			}
 			else {
@@ -181,22 +221,19 @@ void GraphicsChess::game()
 				text.setString("Black to Move");
 				screen.draw(text);
 				screen.display();
-				count = 0;
-				do {
-					if (count > 0) {
-						cout << "Invalid move, try again" << endl;
-					}
-					getMove(posX, posY, destX, destY, false);
-				} while (!makeMove(posX, posY, destX, destY, passanted));
-				system("cls");
+				if (makeMove(posX, posY, destX, destY, passanted)) {
+					showMove(posX, posY, destX, destY, passanted);
+					screen.display();
+				}
+				else {
+					text.setString("Invalid Move, black try again");
+					screen.draw(text);
+					screen.display();
+				}
 				whiteTurn = true;
 			}
+		}
 
-		}
-		cout << "Game complete! | ";
-		if (whiteWins) {
-			cout << "White Wins!" << endl;
-		}
-		else cout << "Black Wins!" << endl;
+		
 	}
 }

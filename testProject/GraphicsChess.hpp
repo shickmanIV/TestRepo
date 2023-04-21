@@ -22,5 +22,8 @@ public:
 
 	void printBoard();
 
+	//Updates the visual board based on the input move (precondition: the move has already been verified)
+	void showMove(int posX, int posY, int destX, int destY, bool passant);
+
 	void game();
 };
