@@ -1,13 +1,10 @@
-
-#include <iostream>
+#include <SFML/Graphics.hpp>
+#include "GraphicsChess.hpp"
 
 int main()
 {
-	std::cout << "This is a test. Do not panic." << std::endl;
+    GraphicsChess test;
+    test.game();
 
-	std::cout << "ABCDEFG" << std::endl;
-	
-	std::cout << "push test" << std::endl;
-
-	return 0;
+    return 0;
 }
