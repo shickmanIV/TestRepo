@@ -1,10 +1,10 @@
-#include "Chess.hpp"
-#include <iostream>
+#include <SFML/Graphics.hpp>
+#include "GraphicsChess.hpp"
 
 int main()
 {
-	Chess test;
-	test.consoleGame();
+    GraphicsChess test;
+    test.game();
 
-	return 0;
+    return 0;
 }

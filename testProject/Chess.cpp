@@ -86,7 +86,7 @@ void Chess::printBoard()
 	}
 }
 
-bool Chess::makeMove(int posX, int posY, int destX, int destY)
+bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 {
 	const type_info& pawnType = typeid(Pawn);
 	const type_info& kingType = typeid(King);
@@ -147,6 +147,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 					piece->setPos(destX, destY);
 					//Remove passanted pawn
 					board[destX][destY - 1] = nullptr;
+					passanted = true;
 				}
 				else if (!piece->getIsWhite() && board[destX][destY + 1] != nullptr && typeid(*(board[destX][destY + 1])) == pawnType) {//Black pawn is en passanting
 					//Move attacking pawn
@@ -155,6 +156,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY)
 					piece->setPos(destX, destY);
 					//Remove passanted pawn
 					board[destX][destY + 1] = nullptr;
+					passanted = true;
 				}
 				else {
 					success = false;//Pawn was trying to capture a piece that moved already, shouldn't need to reset taking privelidge, attempt to capture should have done that
@@ -366,7 +368,7 @@ bool Chess::isWon(bool& whiteWins)
 	return false;
 }
 
-void Chess::consoleGetMove(int& posX, int& posY, int& destX, int& destY, bool isWhite)
+void Chess::getMove(int& posX, int& posY, int& destX, int& destY, bool isWhite)
 {
 	do {
 		cout << "Insert coordinates of piece to move (separate x and y coords by space): ";
@@ -380,9 +382,9 @@ void Chess::consoleGetMove(int& posX, int& posY, int& destX, int& destY, bool is
 	
 }
 
-void Chess::consoleGame()
+void Chess::game()
 {
-	bool whiteWins = false, whiteTurn = true;
+	bool whiteWins = false, whiteTurn = true, passanted = false;
 	int posX = 0, posY = 0, destX = 0, destY = 0, count = 0;
 
 	while (!isWon(whiteWins)) {
@@ -394,8 +396,8 @@ void Chess::consoleGame()
 				if (count > 0) {
 					cout << "Invalid move, try again" << endl;
 				}
-				consoleGetMove(posX, posY, destX, destY, true);
-			} while (!makeMove(posX, posY, destX, destY));
+				getMove(posX, posY, destX, destY, true);
+			} while (!makeMove(posX, posY, destX, destY, passanted));
 			system("cls");
 			whiteTurn = false;
 		}
@@ -407,8 +409,8 @@ void Chess::consoleGame()
 				if (count > 0) {
 					cout << "Invalid move, try again" << endl;
 				}
-				consoleGetMove(posX, posY, destX, destY, false);
-			} while (!makeMove(posX, posY, destX, destY));
+				getMove(posX, posY, destX, destY, false);
+			} while (!makeMove(posX, posY, destX, destY, passanted));
 			system("cls");
 			whiteTurn = true;
 		}

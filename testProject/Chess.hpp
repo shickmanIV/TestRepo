@@ -3,7 +3,7 @@
 #include "Pieces.hpp"
 
 class Chess {
-private:
+protected:
 	Piece* board[8][8];
 	Rook whiteRookL, whiteRookR, blackRookL, blackRookR;
 	Knight whiteKnightL, whiteKnightR, blackKnightL, blackKnightR;
@@ -12,7 +12,7 @@ private:
 	King whiteKing, blackKing;
 	Pawn whiteP1, whiteP2, whiteP3, whiteP4, whiteP5, whiteP6, whiteP7, whiteP8,
 		blackP1, blackP2, blackP3, blackP4, blackP5, blackP6, blackP7, blackP8;
-	Queen promote1, promote2, promote3, promote4, promote5, promote6, promote7, promote8; //If more than 8 promotions happen that sucks, also no bishops and knights because lazy
+	Queen promote1, promote2, promote3, promote4, promote5, promote6, promote7, promote8;
 	Piece* promotionStorage[8];
 	bool whiteCastle, blackCastle;
 
@@ -23,14 +23,15 @@ public:
 	Chess();
 
 	//Basic console print of board
-	void printBoard();
+	virtual void printBoard();
 
 	//If move is valid, it is made and true is returned, if invalid, board is unchanged and false is returned
-	bool makeMove(int posX, int posY, int destX, int destY);
+	bool makeMove(int posX, int posY, int destX, int destY, bool &passanted);
 
 	bool isWon(bool& whiteWins);
 
-	void consoleGetMove(int& posX, int& posY, int& destX, int& destY, bool isWhite);
+	//Gets move from console input for testing purposes
+	void getMove(int& posX, int& posY, int& destX, int& destY, bool isWhite);
 
-	void consoleGame();
+	virtual void game();
 };
