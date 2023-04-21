@@ -3,7 +3,7 @@
 #include "Pieces.hpp"
 
 class Chess {
-protected:
+private:
 	Piece* board[8][8];
 	Rook whiteRookL, whiteRookR, blackRookL, blackRookR;
 	Knight whiteKnightL, whiteKnightR, blackKnightL, blackKnightR;
@@ -25,8 +25,9 @@ public:
 	//Basic console print of board
 	virtual void printBoard();
 
-	//If move is valid, it is made and true is returned, if invalid, board is unchanged and false is returned
-	bool makeMove(int posX, int posY, int destX, int destY, bool &passanted);
+	/*If move is valid, it is made and true is returned, if invalid, board is unchanged and false is returned.
+	passanted and castled aren't used by this class, but the graphics class uses them to update piece sprites*/
+	bool makeMove(int posX, int posY, int destX, int destY, bool &passanted, bool &castled, bool isWhite);
 
 	bool isWon(bool& whiteWins);
 

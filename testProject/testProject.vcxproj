@@ -191,11 +191,15 @@
     <ClCompile Include="Chess.cpp" />
     <ClCompile Include="GraphicsChess.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PieceGraphic.cpp" />
+    <ClCompile Include="PawnGraphic.cpp" />
     <ClCompile Include="Pieces.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
     <ClInclude Include="GraphicsChess.hpp" />
+    <ClInclude Include="PieceGraphic.hpp" />
+    <ClInclude Include="PawnGraphic.hpp" />
     <ClInclude Include="Pieces.hpp" />
     <ClInclude Include="PieceTextures.hpp" />
   </ItemGroup>

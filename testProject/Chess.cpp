@@ -86,12 +86,20 @@ void Chess::printBoard()
 	}
 }
 
-bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
+bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, bool &castled, bool isWhite)
 {
 	const type_info& pawnType = typeid(Pawn);
 	const type_info& kingType = typeid(King);
 	const type_info& rookType = typeid(Rook);
 	Piece* piece = board[posX][posY], * pawnTest = nullptr;
+
+	if (piece == nullptr) {//If somebody tries to move a piece that doesn't exist
+		return false;
+	}
+	else if (piece->getIsWhite() != isWhite) {//Make sure person is moving their own piece
+		return false;
+	}
+
 	int testX = piece->getX(), testY = piece->getY();//Plus one so don't check self for collision
 	bool success = false, collided = false;
 
@@ -176,7 +184,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 							}
 						}
 						if (destX < 7) {
-							pawnTest = board[destX + 1][destY - 1];
+							pawnTest = board[destX + 1][destY];
 							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
 								dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
 							}
@@ -207,6 +215,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 			if (destX == 1 && destY == 0) {//White castle short
 				if (board[1][0] == nullptr && board[2][0] == nullptr && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
+					castled = true;
 					whiteCastle = false;
 					board[1][0] = board[3][0];
 					board[3][0] = nullptr;
@@ -219,6 +228,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 			else if (destX == 5 && destY == 0) {//White castle long
 				if (board[4][0] == nullptr && board[5][0] == nullptr && board[6][0] == nullptr && board[7][0]->getIsWhite()) {
 					success = true;
+					castled = true;
 					whiteCastle = false;
 					board[5][0] = board[3][0];
 					board[3][0] = nullptr;
@@ -233,6 +243,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 			if (destX == 1 && destY == 7) {//Black castle short
 				if (board[1][7] == nullptr && board[2][7] == nullptr && board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
+					castled = true;
 					blackCastle = false;
 					board[1][7] = board[3][7];
 					board[3][7] = nullptr;
@@ -245,6 +256,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 			else if (destX == 5 && destY == 7) {//Black castle long
 				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && board[7][7]->getIsWhite()) {
 					success = true;
+					castled = true;
 					blackCastle = false;
 					board[5][7] = board[3][7];
 					board[3][7] = nullptr;
@@ -273,12 +285,12 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 				}
 				else {
 					if (destX > 0) {
-						if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY + 1]->getIsWhite()) {
+						if (board[destX - 1][destY - 1] != nullptr && board[destX - 1][destY - 1]->getIsWhite()) {
 							dynamic_cast<Pawn*> (piece)->setLeft(true);
 						}
 					}
 					if (destX < 7) {
-						if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY + 1]->getIsWhite()) {
+						if (board[destX + 1][destY - 1] != nullptr && board[destX + 1][destY - 1]->getIsWhite()) {
 							dynamic_cast<Pawn*> (piece)->setRight(true);
 						}
 					}
@@ -324,13 +336,13 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted)
 			if (destY != 0 && destY != 1) {
 				if (destX > 0) {
 					pawnTest = board[destX - 1][destY - 1];
-					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && pawnTest->getIsWhite()) {
 						dynamic_cast<Pawn*> (pawnTest)->setRight(true);
 					}
 				}
 				if (destX < 7) {
 					pawnTest = board[destX + 1][destY - 1];
-					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && !pawnTest->getIsWhite()) {
+					if (pawnTest != nullptr && typeid(*pawnTest) == pawnType && pawnTest->getIsWhite()) {
 						dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
 					}
 				}
@@ -384,7 +396,7 @@ void Chess::getMove(int& posX, int& posY, int& destX, int& destY, bool isWhite)
 
 void Chess::game()
 {
-	bool whiteWins = false, whiteTurn = true, passanted = false;
+	bool whiteWins = false, whiteTurn = true, passanted = false, castled = false;
 	int posX = 0, posY = 0, destX = 0, destY = 0, count = 0;
 
 	while (!isWon(whiteWins)) {
@@ -397,7 +409,7 @@ void Chess::game()
 					cout << "Invalid move, try again" << endl;
 				}
 				getMove(posX, posY, destX, destY, true);
-			} while (!makeMove(posX, posY, destX, destY, passanted));
+			} while (!makeMove(posX, posY, destX, destY, passanted, castled, true));
 			system("cls");
 			whiteTurn = false;
 		}
@@ -410,7 +422,7 @@ void Chess::game()
 					cout << "Invalid move, try again" << endl;
 				}
 				getMove(posX, posY, destX, destY, false);
-			} while (!makeMove(posX, posY, destX, destY, passanted));
+			} while (!makeMove(posX, posY, destX, destY, passanted, castled, false));
 			system("cls");
 			whiteTurn = true;
 		}
