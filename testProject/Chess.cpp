@@ -239,9 +239,9 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 			}
 		}
-		else if (!piece->getIsWhite() && !whiteCastle) {
+		else if (!piece->getIsWhite() && blackCastle) {
 			if (destX == 1 && destY == 7) {//Black castle short
-				if (board[1][7] == nullptr && board[2][7] == nullptr && board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
+				if (board[1][7] == nullptr && board[2][7] == nullptr && !board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
 					castled = true;
 					blackCastle = false;
@@ -254,7 +254,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 			}
 			else if (destX == 5 && destY == 7) {//Black castle long
-				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && board[7][7]->getIsWhite()) {
+				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && !board[7][7]->getIsWhite()) {
 					success = true;
 					castled = true;
 					blackCastle = false;
