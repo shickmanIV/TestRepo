@@ -204,6 +204,8 @@
     <ClCompile Include="Chess.cpp" />
     <ClCompile Include="GraphicsChess.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="MiniGameActor.cpp" />
     <ClCompile Include="PieceGraphic.cpp" />
     <ClCompile Include="PawnGraphic.cpp" />
     <ClCompile Include="Pieces.cpp" />
@@ -211,6 +213,8 @@
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
     <ClInclude Include="GraphicsChess.hpp" />
+    <ClInclude Include="MiniGameActor.hpp" />
+    <ClInclude Include="MiniGameTest.hpp" />
     <ClInclude Include="PieceGraphic.hpp" />
     <ClInclude Include="PawnGraphic.hpp" />
     <ClInclude Include="Pieces.hpp" />
