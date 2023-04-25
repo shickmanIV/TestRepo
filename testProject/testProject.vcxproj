@@ -194,6 +194,7 @@
     <ClCompile Include="PieceGraphic.cpp" />
     <ClCompile Include="PawnGraphic.cpp" />
     <ClCompile Include="Pieces.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="PawnGraphic.hpp" />
     <ClInclude Include="Pieces.hpp" />
     <ClInclude Include="PieceTextures.hpp" />
+    <ClInclude Include="Test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessLogic.hpp" />
