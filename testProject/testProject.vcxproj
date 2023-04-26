@@ -209,6 +209,8 @@
     <ClCompile Include="PieceGraphic.cpp" />
     <ClCompile Include="PawnGraphic.cpp" />
     <ClCompile Include="Pieces.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="ProjectileList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
@@ -219,6 +221,9 @@
     <ClInclude Include="PawnGraphic.hpp" />
     <ClInclude Include="Pieces.hpp" />
     <ClInclude Include="PieceTextures.hpp" />
+    <ClInclude Include="Projectile.hpp" />
+    <ClInclude Include="ProjectileList.hpp" />
+    <ClInclude Include="ProjectileNode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessLogic.hpp" />

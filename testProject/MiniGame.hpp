@@ -10,25 +10,20 @@
 class MiniGame
 {
 public:
-	MiniGame(const sf::Texture &playerPiece, const sf::Color playerColor,
-		const sf::Texture &enemyPiece, const sf::Color enemyColor) :
+	MiniGame(const sf::Texture& playerPiece, const sf::Color playerColor,
+		const sf::Texture& enemyPiece, const sf::Color enemyColor) :
 		windowWidth(512),
 		windowHeight(576),
 		gameWindow(sf::VideoMode(512, 576), "MiniGame"),
 		background(sf::Vector2f(0.0f, 0.0f)),
+		playerWins(false),
 		player(playerPiece, sf::Vector2f(windowWidth / 2.0f, windowHeight * 3.0f / 4.0f)),
 		enemy(enemyPiece, sf::Vector2f(windowWidth / 2.0f, windowHeight * 1.0f / 4.0f))
 	{
 		gameWindow.setFramerateLimit(60);
 		background.setFillColor(sf::Color::Black);
-
-
-		//player.setTexture(playerPiece);
-		//enemy.setTexture(enemyPiece);
-		//std::cout << "set texture B" << std::endl;
-
-		//player.setColor(sf::Color::Blue);
-		//enemy.setColor(sf::Color::Yellow);
+		//spriteList.push_back(player);
+		spriteList.push_back(enemy);
 	}
 
 	//Play the game, returning true if the player won, false otherwise.
@@ -36,6 +31,8 @@ public:
 
 private:
 	sf::RenderWindow gameWindow;
+
+	bool playerWins;
 
 	sf::RectangleShape background;
 
@@ -50,4 +47,6 @@ private:
 	void processKeyRelease(sf::Keyboard::Key& keyCode);
 
 	void reportInputs(sf::Event event);
+
+	std::vector<sf::Sprite> spriteList;
 };

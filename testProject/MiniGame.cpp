@@ -40,13 +40,15 @@ bool MiniGame::runRenderLoop()
 		//Draw Background
 		gameWindow.draw(background);
 
-
+		
 		//Draw Objects
-		gameWindow.draw(player);
-		gameWindow.draw(enemy);
+		for (int i = 0; i < spriteList.size(); i++)
+		{
+			gameWindow.draw(spriteList[i]);
+		}
 		gameWindow.display();
 	}
-	return true;
+	return playerWins;
 }
 
 void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
@@ -59,6 +61,19 @@ void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
 	std::cout << (keyCode == sf::Keyboard::D ? " D" : "  ");
 	std::cout << (keyCode == sf::Keyboard::Space ? " SPACE" : "      ");
 	std::cout << std::endl;
+
+	//Temp solution for determining who wins.
+	if (keyCode == sf::Keyboard::I)
+	{
+		playerWins = true;
+		gameWindow.close();
+	}
+	if (keyCode == sf::Keyboard::O)
+	{
+		playerWins = false;
+		gameWindow.close();
+	}
+
 
 
 	if (keyCode == sf::Keyboard::W)
@@ -76,6 +91,10 @@ void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
 	if (keyCode == sf::Keyboard::D)
 	{
 		player.setMovingRight(true);
+	}
+	if (keyCode == sf::Keyboard::Space)
+	{
+		spriteList.push_back(*(player.fireAt(enemy)));
 	}
 }
 

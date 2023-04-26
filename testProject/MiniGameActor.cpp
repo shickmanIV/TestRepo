@@ -54,3 +54,10 @@ void MiniGameActor::setMovingRight(const bool moveRight)
 		velocity = sf::Vector2f(0.0f, velocity.y);
 	}
 }
+
+sf::Sprite* MiniGameActor::fireAt(MiniGameActor& targetActor)
+{
+	Projectile *p = new Projectile();
+
+	return p;
+}
