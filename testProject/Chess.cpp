@@ -151,7 +151,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 			success = true;//Collision either doesn't matter, or there was no collision (either way there was success)
 			if (board[destX][destY] != nullptr) {//If a piece is on the destination square
 				if (board[destX][destY]->getIsWhite() != piece->getIsWhite()) {//If landing on opposing piece, can capture
-					capture(*board[posX][posY], *board[destX][destY]);
+					success = capture(*board[posX][posY], *board[destX][destY]);
 				}
 				else success = false;//else you're trying to capture your own piece
 			}
