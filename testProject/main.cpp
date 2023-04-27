@@ -1,14 +1,18 @@
 #include <SFML/Graphics.hpp>
-#include "GraphicsChess.hpp"
-#include "MiniGameTest.hpp"
+#include "Test.hpp"
 
 int main()
 {
-    GraphicsChess test;
-    //test.game();
+    Test test;
 
-    MiniGameTest testGame;
-    testGame.testOpenWindow();
+    test.testMove();
+    test.testCapture();
+    test.testEnPassant();
+    test.testCastle();
+    test.testPromotion();
+
+    GraphicsChess chess;
+    chess.game();
     
     return 0;
 }

@@ -211,6 +211,7 @@
     <ClCompile Include="Pieces.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ProjectileList.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Projectile.hpp" />
     <ClInclude Include="ProjectileList.hpp" />
     <ClInclude Include="ProjectileNode.hpp" />
+    <ClInclude Include="Test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessLogic.hpp" />
