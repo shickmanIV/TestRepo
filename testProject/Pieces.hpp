@@ -41,6 +41,7 @@ class Pawn : public Piece {
 private:
 	bool canTakeLeft;
 	bool canTakeRight;
+	bool getPassanted;
 
 public:
 	Pawn(int newX, int newY, bool newIsWhite) : Piece(newX, newY, newIsWhite) {
@@ -53,6 +54,10 @@ public:
 	void setLeft(bool newTakeLeft);
 
 	void setRight(bool newTakeRight);
+
+	void setPassant(bool newPassant);
+
+	bool getPassant();
 
 	void print();
 };

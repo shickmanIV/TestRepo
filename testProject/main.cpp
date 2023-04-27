@@ -13,6 +13,6 @@ int main()
 
     GraphicsChess chess;
     chess.game();
-
+    
     return 0;
 }

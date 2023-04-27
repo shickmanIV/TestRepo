@@ -147,8 +147,9 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 				else success = false;//else you're trying to capture your own piece
 			}
-			else if (typeid(*piece) == pawnType && posX != destX) {//Pawn is moving to an empty square in capture form
-				if (piece->getIsWhite() && board[destX][destY - 1] != nullptr && typeid(*(board[destX][destY - 1])) == pawnType) {//If is white pawn en passanting
+			else if (typeid(*piece) == pawnType && posX != destX) {//Pawn is moving to an empty square in capture form (invalid unless en passant)
+				if (piece->getIsWhite() && board[destX][destY - 1] != nullptr && typeid(*(board[destX][destY - 1])) == pawnType &&
+					dynamic_cast<Pawn*> (board[destX][destY-1])->getPassant()) {//If is white pawn 
 					//Move attacking pawn
 					board[destX][destY] = piece;
 					board[posX][posY] = nullptr;
@@ -157,7 +158,8 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 					board[destX][destY - 1] = nullptr;
 					passanted = true;
 				}
-				else if (!piece->getIsWhite() && board[destX][destY + 1] != nullptr && typeid(*(board[destX][destY + 1])) == pawnType) {//Black pawn is en passanting
+				else if (!piece->getIsWhite() && board[destX][destY + 1] != nullptr && typeid(*(board[destX][destY + 1])) == pawnType &&
+					dynamic_cast<Pawn*> (board[destX][destY + 1])->getPassant()) {//Black pawn 
 					//Move attacking pawn
 					board[destX][destY] = piece;
 					board[posX][posY] = nullptr;
@@ -174,6 +176,12 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				board[destX][destY] = piece;
 				board[posX][posY] = nullptr;
 				piece->setPos(destX, destY);
+
+				//Reset en passants for all pawns since passant eligibility has timed out
+				whiteP1.setPassant(false); whiteP2.setPassant(false); whiteP3.setPassant(false); whiteP4.setPassant(false);
+				whiteP5.setPassant(false); whiteP6.setPassant(false); whiteP7.setPassant(false); whiteP8.setPassant(false);
+				blackP1.setPassant(false); blackP2.setPassant(false); blackP3.setPassant(false); blackP4.setPassant(false);
+				blackP5.setPassant(false); blackP6.setPassant(false); blackP7.setPassant(false); blackP8.setPassant(false);
 				
 				if (typeid(*piece) == pawnType && abs(destY - posY) == 2) {//Set En Passant eligibility
 					if (piece->getIsWhite()) {
@@ -181,12 +189,14 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 							pawnTest = board[destX - 1][destY];
 							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
 								dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+								dynamic_cast<Pawn*> (piece)->setPassant(true);//Tell piece it can now get passanted
 							}
 						}
 						if (destX < 7) {
 							pawnTest = board[destX + 1][destY];
 							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
 								dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+								dynamic_cast<Pawn*> (piece)->setPassant(true);
 							}
 						}
 					}
@@ -195,12 +205,14 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 							pawnTest = board[destX - 1][destY];
 							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
 								dynamic_cast<Pawn*> (pawnTest)->setRight(true);
+								dynamic_cast<Pawn*> (piece)->setPassant(true);
 							}
 						}
 						if (destX < 7) {
 							pawnTest = board[destX + 1][destY];
 							if (pawnTest != nullptr && typeid(*pawnTest) == pawnType) {
 								dynamic_cast<Pawn*> (pawnTest)->setLeft(true);
+								dynamic_cast<Pawn*> (piece)->setPassant(true);
 							}
 						}
 					}

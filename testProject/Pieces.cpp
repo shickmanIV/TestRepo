@@ -98,6 +98,16 @@ void Pawn::setRight(bool newTakeRight)
 	canTakeRight = newTakeRight;
 }
 
+void Pawn::setPassant(bool newPassant)
+{
+	getPassanted = newPassant;
+}
+
+bool Pawn::getPassant()
+{
+	return getPassanted;
+}
+
 void Pawn::print()
 {
 	cout << "p";
