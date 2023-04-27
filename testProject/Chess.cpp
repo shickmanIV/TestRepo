@@ -4,12 +4,12 @@ bool Chess::capture(Piece& attacker, Piece& defender)
 {
 	//Get Textures?
 
-	PieceTextures pt;
+	/*PieceTextures pt;
 
-	MiniGame miniGame(pt.blackKing, sf::Color::Black, pt.whiteKing, sf::Color::White);
+	MiniGame miniGame(pt.blackKing, sf::Color::Black, pt.whiteKing, sf::Color::White);*/
 
 	//Temp code for basic game where attack always works
-	bool success = miniGame.runRenderLoop();
+	bool success = true;//miniGame.runRenderLoop();
 
 	if (success) {
 		board[attacker.getX()][attacker.getY()] = nullptr;
