@@ -234,7 +234,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 		if (piece->getIsWhite() && whiteCastle) {
 			if (destX == 1 && destY == 0) {//White castle short
 				if (board[1][0] == nullptr && board[2][0] == nullptr &&
-					board[0][0] != nullptr && typeid(board[0][0]) == rookType && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
+					board[0][0] != nullptr && typeid(*board[0][0]) == rookType && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
 					castled = true;
 					whiteCastle = false;
@@ -248,7 +248,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 			}
 			else if (destX == 5 && destY == 0) {//White castle long
 				if (board[4][0] == nullptr && board[5][0] == nullptr && board[6][0] == nullptr && 
-					board[7][0] != nullptr && typeid(board[7][0]) == rookType && board[7][0]->getIsWhite()) {
+					board[7][0] != nullptr && typeid(*board[7][0]) == rookType && board[7][0]->getIsWhite()) {
 					success = true;
 					castled = true;
 					whiteCastle = false;
@@ -263,7 +263,8 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 		}
 		else if (!piece->getIsWhite() && blackCastle) {
 			if (destX == 1 && destY == 7) {//Black castle short
-				if (board[1][7] == nullptr && board[2][7] == nullptr && !board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
+				if (board[1][7] == nullptr && board[2][7] == nullptr &&
+					board[0][7] != nullptr && typeid(*board[0][7]) == rookType && !board[0][7]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
 					castled = true;
 					blackCastle = false;
@@ -276,7 +277,8 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 			}
 			else if (destX == 5 && destY == 7) {//Black castle long
-				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && !board[7][7]->getIsWhite()) {
+				if (board[4][7] == nullptr && board[5][7] == nullptr && board[6][7] == nullptr && 
+					board[4][7] != nullptr && typeid(*board[4][7]) == rookType && !board[7][7]->getIsWhite()) {
 					success = true;
 					castled = true;
 					blackCastle = false;
