@@ -233,7 +233,8 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 	else if(typeid(*piece) == kingType){//We'll check for castling here since it would be marked invalid by the king's canMove()
 		if (piece->getIsWhite() && whiteCastle) {
 			if (destX == 1 && destY == 0) {//White castle short
-				if (board[1][0] == nullptr && board[2][0] == nullptr && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
+				if (board[1][0] == nullptr && board[2][0] == nullptr &&
+					board[0][0] != nullptr && typeid(board[0][0]) == rookType && board[0][0]->getIsWhite()) {//Make sure spaces are clear and rook is white
 					success = true;
 					castled = true;
 					whiteCastle = false;
@@ -246,7 +247,8 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 			}
 			else if (destX == 5 && destY == 0) {//White castle long
-				if (board[4][0] == nullptr && board[5][0] == nullptr && board[6][0] == nullptr && board[7][0]->getIsWhite()) {
+				if (board[4][0] == nullptr && board[5][0] == nullptr && board[6][0] == nullptr && 
+					board[7][0] != nullptr && typeid(board[7][0]) == rookType && board[7][0]->getIsWhite()) {
 					success = true;
 					castled = true;
 					whiteCastle = false;
@@ -329,7 +331,7 @@ bool Chess::makeMove(int posX, int posY, int destX, int destY, bool &passanted, 
 				}
 			}
 		}
-		else if (typeid(*piece) == kingType || typeid(*piece) == rookType) {//Disable castling if rook or king moved
+		else if (typeid(*piece) == kingType) {//Disable castling if rook or king moved
 			if (piece->getIsWhite()) {
 				whiteCastle = false;
 			}
