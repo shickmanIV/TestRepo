@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Pieces.hpp"
+#include "MiniGame.hpp"
 
 class Chess {
 private:

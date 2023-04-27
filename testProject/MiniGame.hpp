@@ -1,8 +1,7 @@
-
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "GraphicsChess.hpp" //CAUTION: May cause conflicts when both games are merged.
+//#include "GraphicsChess.hpp" //CAUTION: May cause conflicts when both games are merged.
 #include "MiniGameActor.hpp"
 
 //Manages a bullet-hell minigame where the player must shoot down the enemy boss (the enemy piece)
