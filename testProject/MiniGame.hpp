@@ -9,22 +9,26 @@
 class MiniGame
 {
 public:
-	MiniGame(const sf::Texture& playerPiece, const sf::Color playerColor,
-		const sf::Texture& enemyPiece, const sf::Color enemyColor) :
+	//Create the window for the game to take place in.
+	//TODO: Fix default parameters, currently produces empty square sprites.
+	MiniGame(const sf::Texture& playerTexture = PieceTextures().whiteKing, 
+			const sf::Color playerColor = sf::Color().White,
+			const sf::Texture& enemyTexture = PieceTextures().blackKing,
+			const sf::Color enemyColor = sf::Color().Black
+	) :
 		windowWidth(512),
 		windowHeight(576),
 		gameWindow(sf::VideoMode(512, 576), "MiniGame"),
 		//background(sf::Vector2f(0.0f, 0.0f)),
 		playerWins(false),
-		player(playerPiece, sf::Vector2f(windowWidth / 2.0f, windowHeight * 3.0f / 4.0f)),
-		enemy(enemyPiece, sf::Vector2f(windowWidth / 2.0f, windowHeight * 1.0f / 4.0f))
+		player(playerTexture, sf::Vector2f(windowWidth / 2.0f, windowHeight * 3.0f / 4.0f)),
+		enemy(enemyTexture, sf::Vector2f(windowWidth / 2.0f, windowHeight * 1.0f / 4.0f))
 	{
 		//Instantiate each sprite in boardSquares[][] for later use in drawing the chess board.
 		createBackground();
 
 		gameWindow.setFramerateLimit(60);
-		background.setFillColor(sf::Color::Black);
-		//spriteList.push_back(player);
+		spriteList.push_back(player);
 		spriteList.push_back(enemy);
 	}
 
@@ -49,6 +53,7 @@ private:
 
 	void processKeyRelease(sf::Keyboard::Key& keyCode);
 
+	//Not currently used
 	void reportInputs(sf::Event event);
 
 	//Instantiates each sprite in boardsquares[][]
