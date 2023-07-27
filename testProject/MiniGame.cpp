@@ -39,12 +39,17 @@ bool MiniGame::runRenderLoop()
 
 		drawBackground();
 		
-		//Draw Objects
-		for (int i = 0; i < spriteList.size(); i++)
+		//Draw Objects -- BROKEN
+		/*for (int i = 0; i < spriteList.size(); i++)
 		{
 			gameWindow.draw(spriteList[i]);
-		}
+		}*/
+
+		gameWindow.draw(player);
+		gameWindow.draw(enemy);
+
 		gameWindow.display();
+
 	}
 	return playerWins;
 }
