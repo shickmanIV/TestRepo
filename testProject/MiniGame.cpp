@@ -31,8 +31,8 @@ bool MiniGame::runRenderLoop()
 
 		}
 		//Update actors
-		player.update();
-		enemy.update();
+		player.updatePosition();
+		enemy.updatePosition();
 
 		//Clear previous frame
 		gameWindow.clear();
@@ -78,46 +78,43 @@ void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
 	}
 
 
-
-	if (keyCode == sf::Keyboard::W)
+	//Movement Keys
+	switch (keyCode)
 	{
+	case sf::Keyboard::W:
 		player.setMovingUp(true);
-	}
-	if (keyCode == sf::Keyboard::S)
-	{
+		break;
+	case sf::Keyboard::S:
 		player.setMovingDown(true);
-	}
-	if (keyCode == sf::Keyboard::A)
-	{
+		break;
+	case sf::Keyboard::A:
 		player.setMovingLeft(true);
-	}
-	if (keyCode == sf::Keyboard::D)
-	{
+		break;
+	case sf::Keyboard::D:
 		player.setMovingRight(true);
-	}
-	if (keyCode == sf::Keyboard::Space)
-	{
-		spriteList.push_back(*(player.fireAt(enemy)));
+		break;
+	case sf::Keyboard::Space:
+		//spriteList.push_back(*(player.fireAt(enemy)));
+		break;
 	}
 }
 
 void MiniGame::processKeyRelease(sf::Keyboard::Key& keyCode)
 {
-	if (keyCode == sf::Keyboard::W)
+	switch (keyCode)
 	{
+	case sf::Keyboard::W:
 		player.setMovingUp(false);
-	}
-	if (keyCode == sf::Keyboard::S)
-	{
+		break;
+	case sf::Keyboard::S:
 		player.setMovingDown(false);
-	}
-	if (keyCode == sf::Keyboard::A)
-	{
+		break;
+	case sf::Keyboard::A:
 		player.setMovingLeft(false);
-	}
-	if (keyCode == sf::Keyboard::D)
-	{
+		break;
+	case sf::Keyboard::D:
 		player.setMovingRight(false);
+		break;
 	}
 }
 

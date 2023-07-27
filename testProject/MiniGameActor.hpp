@@ -9,26 +9,36 @@
 class MiniGameActor : public sf::Sprite
 {
 public:
+
 	MiniGameActor(const sf::Texture& actorTexture = PieceTextures().whiteKing,
-		const sf::Vector2f startPosition = sf::Vector2f(0, 0)) :
-		velocity(0.0f, 0.0f),
-		sf::Sprite(actorTexture)
+		const sf::Vector2f startPosition = sf::Vector2f(0, 0), const float actorSpeed = 2.0f) :
+		sf::Sprite(actorTexture),
+		speed(actorSpeed),
+		isMovingUp(false),
+		isMovingDown(false),
+		isMovingLeft(false),
+		isMovingRight(false)
 	{
 		this->setPosition(startPosition);
 	}
-	
-	//Updates for each frame
-	void update();
 
-	void setMovingUp(const bool moveUp);
-	void setMovingDown(const bool moveDown);
-	void setMovingLeft(const bool moveLeft);
-	void setMovingRight(const bool moveRight);
+	void updatePosition();
+
+	void setMovingUp(const bool moveUp) { this->isMovingUp = moveUp; }
+	void setMovingDown(const bool moveDown) { this->isMovingDown = moveDown; }
+	void setMovingLeft(const bool moveLeft) { this->isMovingLeft = moveLeft; }
+	void setMovingRight(const bool moveRight) { this->isMovingRight = moveRight; }
 
 	//Returns the sprite of the projectile being created.
-	Sprite* fireAt(MiniGameActor& targetActor);
+	//Sprite* fireAt(MiniGameActor& targetActor);
 
 private:
-	sf::Texture sourceTexture;
-	sf::Vector2f velocity;
+	const sf::Texture sourceTexture; //unused
+
+	const float speed;
+
+	bool isMovingUp;
+	bool isMovingDown;
+	bool isMovingLeft;
+	bool isMovingRight;
 };

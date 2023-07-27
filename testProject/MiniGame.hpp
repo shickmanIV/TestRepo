@@ -46,6 +46,8 @@ private:
 	int windowHeight;
 	int windowWidth;
 
+	std::vector<sf::Sprite> spriteList;
+
 	//Taken from GraphicsTest. Used in rendering the chess board.
 	sf::RectangleShape boardSquares[8][8];
 
@@ -62,5 +64,5 @@ private:
 	//Draws the chess board
 	void drawBackground();
 
-	std::vector<sf::Sprite> spriteList;
+	
 };
