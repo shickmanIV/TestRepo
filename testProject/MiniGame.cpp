@@ -37,9 +37,7 @@ bool MiniGame::runRenderLoop()
 		//Clear previous frame
 		gameWindow.clear();
 
-		//Draw Background
-		gameWindow.draw(background);
-
+		drawBackground();
 		
 		//Draw Objects
 		for (int i = 0; i < spriteList.size(); i++)
@@ -121,4 +119,41 @@ void MiniGame::processKeyRelease(sf::Keyboard::Key& keyCode)
 void MiniGame::reportInputs(sf::Event event)
 {
 
+}
+
+//Instantiates each sprite in boardsquares[][]
+void MiniGame::createBackground()
+{
+	//Taken from GraphicsChess.
+	sf::Color black(96, 116, 156);//This is objectively the best color for dark squares
+	bool whiteStart = false, isWhite = false;
+	
+	for (int i = 0; i < 8; i++) {
+		whiteStart = i % 2;
+		if (whiteStart) {
+			isWhite = true;
+		}
+		else isWhite = false;
+		for (int j = 0; j < 8; j++) {
+			boardSquares[j][i].setSize(sf::Vector2f(64.f, 64.f));
+			boardSquares[j][i].setPosition(sf::Vector2f(j * 64.f, i * 64.f));
+			if (isWhite) {
+				boardSquares[j][i].setFillColor(sf::Color::White);
+			}
+			else boardSquares[j][i].setFillColor(black);
+
+			isWhite = !isWhite;
+		}
+	}
+}
+
+//Draws the chess board
+void MiniGame::drawBackground()
+{
+	//taken from GraphicsChess::printBoard()
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			gameWindow.draw(boardSquares[j][i]);
+		}
+	}
 }
