@@ -19,7 +19,6 @@ public:
 		windowWidth(512),
 		windowHeight(576),
 		gameWindow(sf::VideoMode(512, 576), "MiniGame"),
-		//background(sf::Vector2f(0.0f, 0.0f)),
 		playerWins(false),
 		player(playerTexture, sf::Vector2f(windowWidth / 2.0f, windowHeight * 3.0f / 4.0f)),
 		enemy(enemyTexture, sf::Vector2f(windowWidth / 2.0f, windowHeight * 1.0f / 4.0f))
@@ -28,8 +27,8 @@ public:
 		createBackground();
 
 		gameWindow.setFramerateLimit(60);
-		spriteList.push_back(player);
-		spriteList.push_back(enemy);
+		spriteList.push_back(&player);
+		spriteList.push_back(&enemy);
 	}
 
 	//Play the game, returning true if the player won, false otherwise.
@@ -46,7 +45,7 @@ private:
 	int windowHeight;
 	int windowWidth;
 
-	std::vector<sf::Sprite> spriteList;
+	std::vector<sf::Sprite *> spriteList;
 
 	//Taken from GraphicsTest. Used in rendering the chess board.
 	sf::RectangleShape boardSquares[8][8];

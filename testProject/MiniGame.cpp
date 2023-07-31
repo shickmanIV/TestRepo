@@ -11,6 +11,11 @@ bool MiniGame::runRenderLoop()
 		//Process Events
 		while (gameWindow.pollEvent(event))
 		{
+
+
+
+
+
 			//Request for closing the window
 			if (event.type == sf::Event::Closed)
 			{
@@ -39,14 +44,11 @@ bool MiniGame::runRenderLoop()
 
 		drawBackground();
 		
-		//Draw Objects -- BROKEN
-		/*for (int i = 0; i < spriteList.size(); i++)
+		//Draw Objects
+		for (int i = 0; i < spriteList.size(); i++)
 		{
-			gameWindow.draw(spriteList[i]);
-		}*/
-
-		gameWindow.draw(player);
-		gameWindow.draw(enemy);
+			gameWindow.draw(*spriteList[i]);
+		}
 
 		gameWindow.display();
 

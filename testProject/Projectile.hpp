@@ -1,23 +1,24 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "MiniGameActor.hpp"
 
 #define DEFAULT_SPEED 4.0f
 
 class Projectile : public sf::Sprite
 {
 public:
-	Projectile();
+	Projectile(sf::Vector2f direction) : direction(direction), lifeTime(0), sf::Sprite() {};
 
 	void update();
 
 private:
-	//Points to the actor that fired the projectile.
-	sf::Texture sourceTexture;
-
 	//A unit vector
-	sf::Vector2f direction;
+	const sf::Vector2f direction;
 
 	//The number of updates() run
 	int lifeTime;
+
+	//Pass an event to report a successful hit
+	void reportHit();
 };
