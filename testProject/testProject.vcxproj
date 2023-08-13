@@ -214,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
+    <ClInclude Include="GameEntity.hpp" />
     <ClInclude Include="GraphicsChess.hpp" />
     <ClInclude Include="MiniGameActor.hpp" />
     <ClInclude Include="MiniGameTest.hpp" />

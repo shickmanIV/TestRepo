@@ -77,6 +77,9 @@
     <ClInclude Include="Test.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessLogic.hpp">

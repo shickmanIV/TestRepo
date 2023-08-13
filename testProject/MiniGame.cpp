@@ -24,20 +24,17 @@ bool MiniGame::runRenderLoop()
 				break;
 			}
 		}
-		//Update actors
-		player.updatePosition();
-		enemy.updatePosition();
 		//reportInputs();
 
 		//Clear previous frame
 		gameWindow.clear();
-
 		drawBackground();
-		
-		//Draw Objects
-		for (int i = 0; i < spriteList.size(); i++)
+
+		//Update and render all entities
+		for (int i = 0; i < entityList.size(); i++)
 		{
-			gameWindow.draw(*spriteList[i]);
+			entityList[i]->update();
+			gameWindow.draw(*entityList[i]);
 		}
 
 		gameWindow.display();

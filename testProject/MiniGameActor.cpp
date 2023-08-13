@@ -1,8 +1,7 @@
-
 #include "MiniGameActor.hpp"
 
-
-void MiniGameActor::updatePosition()
+//Handle the frame-by-frame movement of the actor
+void MiniGameActor::update()
 {
 	sf::Vector2f actorVelocity(0.0f, 0.0f);
 

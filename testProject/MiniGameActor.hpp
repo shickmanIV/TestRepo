@@ -1,28 +1,27 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "GameEntity.hpp"
 #include "PieceTextures.hpp"
 #include "Projectile.hpp"
 #include <iostream>
 
-//An abstract class for defining the actions an object can take in the MiniGame.
-class MiniGameActor : public sf::Sprite
+//An class for defining the actions an object can take in the MiniGame.
+class MiniGameActor : public GameEntity
 {
 public:
-
 	MiniGameActor(const sf::Texture& actorTexture = PieceTextures().whiteKing,
 		const sf::Vector2f startPosition = sf::Vector2f(0, 0), const float actorSpeed = 2.0f) :
-		sf::Sprite(actorTexture),
+		GameEntity(actorTexture, startPosition),
 		speed(actorSpeed),
 		isMovingUp(false),
 		isMovingDown(false),
 		isMovingLeft(false),
 		isMovingRight(false)
-	{
-		this->setPosition(startPosition);
-	}
+	{};
 
-	void updatePosition();
+	//Handle the frame-by-frame movement of the actor
+	void update();
 
 	void setMovingUp(const bool moveUp) { this->isMovingUp = moveUp; }
 	void setMovingDown(const bool moveDown) { this->isMovingDown = moveDown; }
@@ -33,8 +32,6 @@ public:
 	//Sprite* fireAt(MiniGameActor& targetActor);
 
 private:
-	const sf::Texture sourceTexture; //unused
-
 	const float speed;
 
 	bool isMovingUp;
