@@ -11,33 +11,23 @@ bool MiniGame::runRenderLoop()
 		//Process Events
 		while (gameWindow.pollEvent(event))
 		{
-
-
-
-
-
-			//Request for closing the window
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
 			{
+			case sf::Event::Closed:
 				gameWindow.close();
-			}
-			
-			//Process key presses
-			if (event.type == sf::Event::KeyPressed)
-			{
+				break;
+			case sf::Event::KeyPressed:
 				processKeyPress(event.key.code);
-			}
-
-			//Process key releases
-			if (event.type == sf::Event::KeyReleased)
-			{
+				break;
+			case sf::Event::KeyReleased:
 				processKeyRelease(event.key.code);
+				break;
 			}
-
 		}
 		//Update actors
 		player.updatePosition();
 		enemy.updatePosition();
+		//reportInputs();
 
 		//Clear previous frame
 		gameWindow.clear();
@@ -51,22 +41,12 @@ bool MiniGame::runRenderLoop()
 		}
 
 		gameWindow.display();
-
 	}
 	return playerWins;
 }
 
 void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
 {
-	//Test Messages
-	std::cout << "Keys Detected: ";
-	std::cout << (keyCode == sf::Keyboard::W ? "W" : " ");
-	std::cout << (keyCode == sf::Keyboard::A ? " A" : "  ");
-	std::cout << (keyCode == sf::Keyboard::S ? " S" : "  ");
-	std::cout << (keyCode == sf::Keyboard::D ? " D" : "  ");
-	std::cout << (keyCode == sf::Keyboard::Space ? " SPACE" : "      ");
-	std::cout << std::endl;
-
 	//Temp solution for determining who wins.
 	if (keyCode == sf::Keyboard::I)
 	{
@@ -79,24 +59,28 @@ void MiniGame::processKeyPress(sf::Keyboard::Key& keyCode)
 		gameWindow.close();
 	}
 
-
 	//Movement Keys
 	switch (keyCode)
 	{
 	case sf::Keyboard::W:
 		player.setMovingUp(true);
+		inputList[Inputs::W] = true;
 		break;
 	case sf::Keyboard::S:
 		player.setMovingDown(true);
+		inputList[Inputs::S] = true;
 		break;
 	case sf::Keyboard::A:
 		player.setMovingLeft(true);
+		inputList[Inputs::A] = true;
 		break;
 	case sf::Keyboard::D:
 		player.setMovingRight(true);
+		inputList[Inputs::D] = true;
 		break;
 	case sf::Keyboard::Space:
 		//spriteList.push_back(*(player.fireAt(enemy)));
+		inputList[Inputs::SPACE] = true;
 		break;
 	}
 }
@@ -107,22 +91,35 @@ void MiniGame::processKeyRelease(sf::Keyboard::Key& keyCode)
 	{
 	case sf::Keyboard::W:
 		player.setMovingUp(false);
+		inputList[Inputs::W] = false;
 		break;
 	case sf::Keyboard::S:
 		player.setMovingDown(false);
+		inputList[Inputs::S] = false;
 		break;
 	case sf::Keyboard::A:
 		player.setMovingLeft(false);
+		inputList[Inputs::A] = false;
 		break;
 	case sf::Keyboard::D:
 		player.setMovingRight(false);
+		inputList[Inputs::D] = false;
+		break;
+	case sf::Keyboard::Space:
+		inputList[Inputs::SPACE] = false;
 		break;
 	}
 }
 
-void MiniGame::reportInputs(sf::Event event)
+void MiniGame::reportInputs()
 {
-
+	std::cout << "Keys Detected: ";
+	std::cout << (inputList[Inputs::W] ? "W" : " ");
+	std::cout << (inputList[Inputs::A] ? " A" : "  ");
+	std::cout << (inputList[Inputs::S] ? " S" : "  ");
+	std::cout << (inputList[Inputs::D] ? " D" : "  ");
+	std::cout << (inputList[Inputs::SPACE] ? " SPACE" : "      ");
+	std::cout << std::endl;
 }
 
 //Instantiates each sprite in boardsquares[][]
