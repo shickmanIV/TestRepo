@@ -31,12 +31,11 @@ bool MiniGame::runRenderLoop()
 		drawBackground();
 
 		//Update and render all entities
-		for (int i = 0; i < entityList.size(); i++)
+		for (int i = 0; i < entityTracker.getSize(); i++)
 		{
-			entityList[i]->update();
-			gameWindow.draw(*entityList[i]);
+			entityTracker[i]->update();
+			gameWindow.draw(*entityTracker[i]);
 		}
-
 		gameWindow.display();
 	}
 	return playerWins;

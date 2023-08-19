@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -202,6 +202,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chess.cpp" />
+    <ClCompile Include="EntityTracker.cpp" />
+    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GraphicsChess.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MiniGame.cpp" />
@@ -214,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chess.hpp" />
+    <ClInclude Include="EntityTracker.hpp" />
     <ClInclude Include="GameEntity.hpp" />
     <ClInclude Include="GraphicsChess.hpp" />
     <ClInclude Include="MiniGameActor.hpp" />

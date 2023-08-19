@@ -12,13 +12,15 @@ class MiniGameActor : public GameEntity
 public:
 	MiniGameActor(const sf::Texture& actorTexture = PieceTextures().whiteKing,
 		const sf::Vector2f startPosition = sf::Vector2f(0, 0), const float actorSpeed = 2.0f) :
-		GameEntity(actorTexture, startPosition),
 		speed(actorSpeed),
 		isMovingUp(false),
 		isMovingDown(false),
 		isMovingLeft(false),
-		isMovingRight(false)
-	{};
+		isMovingRight(false),
+		GameEntity(actorTexture)
+	{
+		this->setPosition(startPosition);
+	};
 
 	//Handle the frame-by-frame movement of the actor
 	void update();
@@ -27,9 +29,6 @@ public:
 	void setMovingDown(const bool moveDown) { this->isMovingDown = moveDown; }
 	void setMovingLeft(const bool moveLeft) { this->isMovingLeft = moveLeft; }
 	void setMovingRight(const bool moveRight) { this->isMovingRight = moveRight; }
-
-	//Returns the sprite of the projectile being created.
-	//Sprite* fireAt(MiniGameActor& targetActor);
 
 private:
 	const float speed;

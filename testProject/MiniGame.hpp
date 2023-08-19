@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 //#include "GraphicsChess.hpp" //CAUTION: May cause conflicts when both games are merged.
 #include "MiniGameActor.hpp"
+
 
 //Used for reporting the current inputs
 typedef enum inputs
@@ -42,6 +42,8 @@ public:
 	bool runRenderLoop();
 
 private:
+	EntityTracker entityTracker;
+
 	bool playerWins;
 
 	sf::RenderWindow gameWindow;
